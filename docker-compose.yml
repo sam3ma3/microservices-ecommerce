@@ -1,4 +1,4 @@
-services:
+nservices:
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
@@ -34,19 +34,7 @@ services:
     hostname: db
     networks:
       - ecommerce
-  gateway:
-    build: ./gateway
-    restart: always
-    depends_on:
-      - db
-      - kafka
-    hostname: gateway
-    env_file:
-      - .env
-    ports:
-      - "3000:3000"
-    networks:
-      - ecommerce
+  
   order:
     build: ./order
     restart: always
@@ -57,6 +45,8 @@ services:
       - .env
     networks:
       - ecommerce
+    ports:
+      - '3001:3001'    
   inventory:
     build: ./inventory
     restart: always
@@ -67,16 +57,11 @@ services:
       - .env
     networks:
       - ecommerce
-  payment:
-    build: ./payment
-    restart: always
-    depends_on:
-      - db
-      - kafka
-    env_file:
-      - .env
-    networks:
-      - ecommerce
+    ports:
+      - '3002:3001'    
+  
+    
+
   product:
     build: ./product
     restart: always
@@ -87,6 +72,8 @@ services:
       - .env
     networks:
       - ecommerce
+    ports:
+      - '3003:3001'  
   pgadmin:
     image: dpage/pgadmin4
     restart: always
